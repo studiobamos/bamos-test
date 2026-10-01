@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+import { getCollection } from 'astro:content';
+
+const diensten = (await getCollection('diensten')).sort((a, b) => a.data.order - b.data.order);
+const projecten = (await getCollection('projecten')).filter((p) => !p.data.draft).sort((a, b) => b.data.year - a.data.year).slice(0, 3);
+---
+<Base>
+  <section class="hero">
+    <h1>{site.tagline}</h1>
+    <p>{site.intro}</p>
+    <a class="btn" href="/contact">{site.cta}</a>
+  </section>
+
+  <section class="section">
+    <h2>Diensten</h2>
+    <div class="grid">
+      {diensten.map((d) => (
+        <a class="card" href={`/diensten/${d.id}`}>
+          {d.data.icon && <span class="icon">{d.data.icon}</span>}
+          <h3>{d.data.title}</h3>
+          <p>{d.data.summary}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Recent werk</h2>
+    <div class="grid">
+      {projecten.map((p) => (
+        <a class="card" href={`/projecten/${p.id}`}>
+          {p.data.image && <img src={p.data.image} alt={p.data.title} />}
+          <small>{p.data.client} · {p.data.year}</small>
+          <h3>{p.data.title}</h3>
+          <p>{p.data.summary}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

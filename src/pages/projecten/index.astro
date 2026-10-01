@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const projecten = (await getCollection('projecten')).filter((p) => !p.data.draft).sort((a, b) => b.data.year - a.data.year);
+---
+<Base title="Projecten">
+  <section class="hero"><h1>Projecten</h1></section>
+  <div class="grid">
+    {projecten.map((p) => (
+      <a class="card" href={`/projecten/${p.id}`}>
+        {p.data.image && <img src={p.data.image} alt={p.data.title} />}
+        <small>{p.data.client} · {p.data.year}</small>
+        <h3>{p.data.title}</h3>
+        <p>{p.data.summary}</p>
+      </a>
+    ))}
+  </div>
+</Base>

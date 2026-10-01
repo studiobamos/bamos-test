@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+---
+<Base title="Contact">
+  <section class="hero">
+    <h1>Zullen we <em>kletsen</em>?</h1>
+    <p>Mail ons gerust, dan kijken we samen wat past.</p>
+    <a class="btn" href={`mailto:${site.email}`}>{site.email}</a>
+  </section>
+</Base>

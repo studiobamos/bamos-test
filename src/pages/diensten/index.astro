@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const diensten = (await getCollection('diensten')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Diensten">
+  <section class="hero"><h1>Diensten</h1></section>
+  <div class="grid">
+    {diensten.map((d) => (
+      <a class="card" href={`/diensten/${d.id}`}>
+        {d.data.icon && <span class="icon">{d.data.icon}</span>}
+        <h3>{d.data.title}</h3>
+        <p>{d.data.summary}</p>
+      </a>
+    ))}
+  </div>
+</Base>

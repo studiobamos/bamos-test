@@ -1,0 +1,67 @@
+---
+import site from '../data/site.json';
+interface Props { title?: string }
+const { title } = Astro.props;
+const pageTitle = title ? `${title} — ${site.name}` : site.name;
+---
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={site.tagline} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body style={`--accent:${site.accent}`}>
+    <header class="nav">
+      <a class="logo" href="/">{site.name}</a>
+      <nav>
+        <a href="/diensten">Diensten</a>
+        <a href="/projecten">Projecten</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
+    <main><slot /></main>
+    <footer class="foot">
+      <p>© {new Date().getFullYear()} {site.name} · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root { --ink:#16130f; --paper:#f6f1e9; --muted:#6b645a; --line:#16130f22; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:400 1.05rem/1.6 'Inter',system-ui,sans-serif; }
+  h1,h2,h3 { font-family:'Bricolage Grotesque',sans-serif; line-height:1.02; letter-spacing:-0.02em; margin:0 0 .5em; }
+  h1 { font-size:clamp(2.6rem,8vw,6rem); font-weight:800; }
+  h2 { font-size:clamp(1.8rem,4vw,3rem); font-weight:700; }
+  h3 { font-size:1.4rem; font-weight:700; }
+  a { color:inherit; }
+  main { max-width:1100px; margin:0 auto; padding:0 1.25rem 4rem; }
+  .nav { display:flex; justify-content:space-between; align-items:center; max-width:1100px; margin:0 auto; padding:1.25rem; }
+  .nav nav { display:flex; gap:1.5rem; }
+  .nav a { text-decoration:none; font-weight:500; }
+  .nav nav a:hover { color:var(--accent); }
+  .logo { font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:1.3rem; }
+  .hero { padding:4rem 0 3rem; }
+  .hero h1 em { font-style:normal; color:var(--accent); }
+  .hero p { font-size:1.25rem; max-width:34ch; color:var(--muted); }
+  .btn { display:inline-block; background:var(--ink); color:var(--paper); padding:.9rem 1.5rem; border-radius:999px; text-decoration:none; font-weight:500; margin-top:1rem; transition:background .2s, transform .2s; }
+  .btn:hover { background:var(--accent); transform:translateY(-2px); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.25rem; margin-top:1.5rem; }
+  .card { border:1.5px solid var(--ink); border-radius:18px; padding:1.5rem; text-decoration:none; background:#fff8; transition:transform .2s, box-shadow .2s; display:block; }
+  .card:hover { transform:translate(-3px,-3px); box-shadow:6px 6px 0 var(--accent); }
+  .card small { color:var(--muted); }
+  .card p { margin:.4em 0 0; color:var(--muted); }
+  .card img { width:100%; border-radius:10px; margin-bottom:1rem; aspect-ratio:4/3; object-fit:cover; }
+  .icon { font-size:2rem; display:block; margin-bottom:.5rem; }
+  .section { padding:3rem 0 0; }
+  .prose { max-width:62ch; }
+  .prose img { max-width:100%; border-radius:12px; }
+  .foot { border-top:1.5px solid var(--line); padding:2rem 1.25rem; text-align:center; color:var(--muted); font-size:.9rem; }
+  .crumb { display:inline-block; margin:2rem 0 1rem; color:var(--muted); text-decoration:none; }
+</style>
